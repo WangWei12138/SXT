@@ -10,7 +10,7 @@ public class UseCyclicBarrier {
 	static class Runner implements Runnable {  
 	    private CyclicBarrier barrier;  
 	    private String name;  
-	    
+	   
 	    public Runner(CyclicBarrier barrier, String name) {  
 	        this.barrier = barrier;  
 	        this.name = name;  
