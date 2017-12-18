@@ -3,6 +3,7 @@ package socketIO.bhz.nio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -64,7 +65,7 @@ public class Server implements Runnable{
 						}
 						//9 写数据
 						if(key.isWritable()){
-							//this.write(key); //ssc
+							this.write(key); //ssc
 						}
 					}
 					
@@ -76,8 +77,13 @@ public class Server implements Runnable{
 	}
 	
 	public void write(SelectionKey key){
-		//ServerSocketChannel ssc =  (ServerSocketChannel) key.channel();
-		//ssc.register(this.seletor, SelectionKey.OP_WRITE);
+		ServerSocketChannel ssc =  (ServerSocketChannel) key.channel();
+		try {
+			ssc.register(this.seletor, SelectionKey.OP_WRITE);
+		} catch (ClosedChannelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void read(SelectionKey key) {
